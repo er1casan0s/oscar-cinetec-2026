@@ -46,11 +46,16 @@
             </form>
         </div>
 
-        <!-- ÁREA 2: MEU CURTA (Aparece só se já tiver cadastrado) -->
+               <!-- ÁREA 2: MEU CURTA (Aparece só se já tiver cadastrado) -->
         <div id="area-meu-curta" class="admin-section" style="display: none;">
             <h3>Meu Curta Cadastrado</h3>
             <div id="card-meu-curta" style="max-width: 400px; margin: 0 auto 20px auto;"></div>
-            <button type="button" id="btn-abrir-edicao" onclick="abrirEdicao()" style="max-width: 400px; margin: 0 auto; display: block;">✏️ Editar Meus Dados</button>
+            
+            <!-- Botões de Ação: Editar e Excluir -->
+            <div style="display: flex; gap: 10px; max-width: 400px; margin: 0 auto;">
+                <button type="button" id="btn-abrir-edicao" onclick="abrirEdicao()" style="flex: 1; margin: 0;">✏️ Editar Meus Dados</button>
+                <button type="button" onclick="excluirMeuCurta()" style="flex: 1; margin: 0; background: #ff4d4d;">🗑️ Excluir Curta</button>
+            </div>
         </div>
 
         <!-- ÁREA 3: FORMULÁRIO DE EDIÇÃO (Escondido, aparece ao clicar em editar) -->
