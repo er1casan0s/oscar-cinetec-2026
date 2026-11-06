@@ -195,12 +195,21 @@ function carregarNomesDoElenco(tipo) {
     
     // Se o curta existe e tem elenco cadastrado
     if (curta && curta.elenco) {
-        // Separa os nomes pelas vírgulas e tira os espaços em branco
+        // Separa os nomes pelas vírgulas
         const nomes = curta.elenco.split(',').map(nome => nome.trim());
         
-        nomes.forEach(nome => {
-            if (nome !== "") { // Evita criar opções vazias
-                selectNomes.innerHTML += `<option value="${nome}">${nome}</option>`;
+        nomes.forEach(nomeCompleto => {
+            if (nomeCompleto !== "") { 
+                // O SEGREDO ESTÁ AQUI: Se tiver um traço "-", ele separa o nome do ator
+                let nomeExibicao = nomeCompleto;
+                
+                if (nomeCompleto.includes('-')) {
+                    // Pega a parte depois do traço (o nome do ator) e tira os espaços
+                    nomeExibicao = nomeCompleto.split('-')[1].trim();
+                }
+
+                // Coloca o nome do ator na lista
+                selectNomes.innerHTML += `<option value="${nomeExibicao}">${nomeExibicao}</option>`;
             }
         });
     }
