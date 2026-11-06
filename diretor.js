@@ -224,5 +224,44 @@ function baixarCapaDiretor() {
     document.body.removeChild(linkTemporario);
 }
 
+
+// --- FUNÇÃO PARA EXCLUIR O PRÓPRIO CURTA ---
+async function excluirMeuCurta() {
+    // Verifica se o curta existe
+    if (!meuCurta || !meuCurta.id) {
+        return alert("Erro: Nenhum curta encontrado para excluir.");
+    }
+
+    // Pede confirmação (para não apagar sem querer)
+    const confirmacao = confirm("ATENÇÃO: Tem certeza que deseja excluir o seu curta? Essa ação não pode ser desfeita e ele sairá da votação.");
+    
+    if (confirmacao) {
+        try {
+            // Apaga no banco de dados apenas se o ID bater e for criado por ele
+            const { error } = await supabaseClient
+                .from('curtas')
+                .delete()
+                .eq('id', meuCurta.id)
+                .eq('criado_por', codigoAcesso);
+
+            if (error) throw new Error(error.message);
+
+            alert("Seu curta foi excluído com sucesso!");
+            
+            // Limpa a variável e recarrega a tela. O sistema vai ver que ele não tem mais curta
+            // e vai voltar para a tela de cadastro inicial.
+            meuCurta = null;
+            document.getElementById('area-meu-curta').style.display = 'none';
+            document.getElementById('area-edicao').style.display = 'none';
+            verificarMeuCurta(); 
+
+        } catch (error) {
+            alert("Erro ao excluir o curta: " + error.message);
+        }
+    }
+}
+
+// Inicializa verificando se ele já tem curta
+verificarMeuCurta();
 // Inicializa verificando se ele já tem curta
 verificarMeuCurta();
