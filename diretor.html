@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Diretor - CINETEC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme"> <!-- Já inicia no tema claro -->
+
+        <div class="container">
+        <div class="top-buttons">
+            <a href="index.html"><button class="btn-topo" style="background: #ff4d4d; color: white; border: none;">Sair</button></a>
+             <!-- NOVO BOTÃO DE DOWNLOAD AQUI -->
+            <a id="link-download-capa-diretor" href="capa-instagram.png" download="Capa-Oscar-CINETEC.png">
+                <button class="btn-topo" onclick="baixarCapaDiretor()">📥 Baixar Capa</button>
+            </a>
+
+            <button class="btn-topo" onclick="alternarTema()">🌓 Tema Claro/Escuro</button>
+        </div>
+        
+        <img src="logo.png" alt="Logo CINETEC" class="logo" style="width: 150px;">
+        <h2>Painel do Diretor</h2>
+
+        <!-- ÁREA 1: FORMULÁRIO DE CADASTRO (Aparece só se não tiver curta) -->
+        <div id="area-cadastro" class="admin-section active" style="display: none;">
+            <h3>Cadastrar Meu Curta (Apenas 1 por diretor)</h3>
+            <form id="form-diretor">
+                <input type="text" id="nome_curta" placeholder="Nome do Curta" required>
+                <input type="url" id="link_video" placeholder="Link do YouTube (ex: https://youtu.be/...)" required>
+                
+                <input type="file" id="capa_arquivo" accept="image/*" required>
+                
+                <input type="text" id="direcao" placeholder="Direção (Seu nome)" required>
+                
+                <select id="genero" required>
+                    <option value="">Selecione o Gênero...</option>
+                    <option value="Comédia">Comédia</option>
+                    <option value="Suspense">Suspense</option>
+                    <option value="Drama">Drama</option>
+                </select>
+                
+                <input type="text" id="elenco" placeholder="Elenco (Separe por vírgula: João, Maria)" required>
+                
+                <button type="submit" id="btn-cadastrar">Cadastrar Meu Curta</button>
+            </form>
+        </div>
+
+        <!-- ÁREA 2: MEU CURTA (Aparece só se já tiver cadastrado) -->
+        <div id="area-meu-curta" class="admin-section" style="display: none;">
+            <h3>Meu Curta Cadastrado</h3>
+            <div id="card-meu-curta" style="max-width: 400px; margin: 0 auto 20px auto;"></div>
+            <button type="button" id="btn-abrir-edicao" onclick="abrirEdicao()" style="max-width: 400px; margin: 0 auto; display: block;">✏️ Editar Meus Dados</button>
+        </div>
+
+        <!-- ÁREA 3: FORMULÁRIO DE EDIÇÃO (Escondido, aparece ao clicar em editar) -->
+        <div id="area-edicao" class="admin-section" style="display: none;">
+            <h3>Editando Meu Curta</h3>
+            <form id="form-edicao">
+                <input type="text" id="edit_nome" required>
+                <input type="url" id="edit_video" required>
+                
+                <input type="file" id="edit_capa" accept="image/*">
+                <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: -5px; margin-bottom: 10px;">
+                    * Deixe em branco para manter a capa atual.
+                </small>
+                
+                <input type="text" id="edit_direcao" required>
+                <select id="edit_genero" required>
+                    <option value="Comédia">Comédia</option>
+                    <option value="Suspense">Suspense</option>
+                    <option value="Drama">Drama</option>
+                </select>
+                <input type="text" id="edit_elenco" required>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" style="flex: 1;">Salvar Alterações</button>
+                    <button type="button" onclick="cancelarEdicaoDiretor()" style="flex: 1; background: #ff4d4d;">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <h3 style="margin-top: 40px;">Outros Curtas Cadastrados</h3>
+        <div class="grid-curtas" id="lista-cards-diretor"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="diretor.js"></script>
+</body>
+</html>

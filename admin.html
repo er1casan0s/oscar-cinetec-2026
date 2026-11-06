@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Oscar CINETEC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+
+    <div class="container" style="max-width: 1200px;">
+        <div class="top-buttons">
+            <a href="index.html"><button class="btn-topo">Sair do Admin</button></a>
+            <button class="btn-topo" onclick="alternarTema()">🌓 Tema Claro/Escuro</button>
+        </div>
+        
+        <img src="logo.png" alt="Logo CINETEC" class="logo" style="width: 120px;">
+        <h2>Painel de Controle</h2>
+
+        <!-- BOTÕES DAS ABAS -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="mudarAba('aba-curtas', this)">Gerenciar Curtas</button>
+            <button class="tab-btn" onclick="mudarAba('aba-votos', this)">Ver Votos Recebidos</button>
+            <button class="tab-btn" onclick="mudarAba('aba-graficos', this)">📊 Gráficos e Resultados</button>
+        </div>
+
+        <!-- ABA 1: GERENCIAR CURTAS -->
+        <div id="aba-curtas" class="admin-section active">
+            <h3 id="titulo-form-curta">Cadastrar Novo Curta</h3>
+            
+            <form id="form-admin">
+                <!-- Campo invisível para guardar o ID do curta que está sendo editado -->
+                <input type="hidden" id="curta_id_editando" value="">
+                
+                <input type="text" id="nome_curta" placeholder="Nome do Curta" required>
+                <input type="url" id="link_video" placeholder="Link do YouTube (ex: https://youtu.be/...)" required>
+                
+                <!-- Campo de Upload da Capa -->
+                <input type="file" id="capa_arquivo" accept="image/*">
+                <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: -5px; margin-bottom: 10px; grid-column: 1 / -1;">
+                    * Deixe em branco se não quiser trocar a capa atual.
+                </small>
+                
+                <input type="text" id="direcao" placeholder="Direção (Nome do Diretor)" required>
+                
+                <select id="genero" required>
+                    <option value="">Selecione o Gênero...</option>
+                    <option value="Comédia">Comédia</option>
+                    <option value="Suspense">Suspense</option>
+                    <option value="Drama">Drama</option>
+                </select>
+                
+                <input type="text" id="elenco" placeholder="Elenco (Separe por vírgula: João, Maria)" required style="grid-column: 1 / -1;">
+                
+                <div style="grid-column: 1 / -1; display: flex; gap: 10px;">
+                    <button type="submit" id="btn-cadastrar" style="flex: 1;">Cadastrar Curta</button>
+                    <!-- Botão de cancelar edição (escondido por padrão) -->
+                    <button type="button" id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="flex: 1; background: #ff4d4d; display: none;">Cancelar Edição</button>
+                </div>
+            </form>
+
+            <h3 style="margin-top: 40px;">Curtas Cadastrados</h3>
+            <table id="tabela-curtas">
+                <thead>
+                    <tr>
+                        <th>Capa</th>
+                        <th>Nome</th>
+                        <th>Gênero</th>
+                        <th>Criado Por</th> <!-- NOVA COLUNA AQUI -->
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- ABA 2: VER VOTOS -->
+        <div id="aba-votos" class="admin-section">
+            <h3>Resultados e Votos</h3>
+            <table id="tabela-votos">
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Fotografia</th>
+                        <th>Roteiro</th>
+                        <th>Ator (Nome / Curta)</th>
+                        <th>Atriz (Nome / Curta)</th>
+                        <th>Melhor Curta</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- ABA 3: GRÁFICOS E QUANTITATIVOS -->
+        <div id="aba-graficos" class="admin-section">
+            <h3>Melhor Curta (Votos Totais)</h3>
+            <!-- Canvas onde o gráfico será desenhado -->
+            <div style="background: var(--bg-form); padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                <canvas id="graficoMelhorCurta"></canvas>
+            </div>
+
+            <h3>Quantitativo por Categoria</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="card-quantitativo">
+                    <h4>Melhor Fotografia</h4>
+                    <ul id="lista-fotografia" style="list-style: none; padding: 0; color: var(--text-muted);"></ul>
+                </div>
+                <div class="card-quantitativo">
+                    <h4>Melhor Roteiro</h4>
+                    <ul id="lista-roteiro" style="list-style: none; padding: 0; color: var(--text-muted);"></ul>
+                </div>
+                <div class="card-quantitativo">
+                    <h4>Melhor Ator (Por Curta)</h4>
+                    <ul id="lista-ator" style="list-style: none; padding: 0; color: var(--text-muted);"></ul>
+                </div>
+                <div class="card-quantitativo">
+                    <h4>Melhor Atriz (Por Curta)</h4>
+                    <ul id="lista-atriz" style="list-style: none; padding: 0; color: var(--text-muted);"></ul>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- Fecha a div container -->
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Biblioteca de Gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Seu arquivo de lógica -->
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votação Oscar CINETEC 2026</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+
+    <!-- TELA DE SENHA -->
+    <div id="tela-senha" class="container" style="max-width: 600px;">
+        <img src="logo.png" alt="Logo CINETEC" class="logo">
+        <h2>Acesso Restrito</h2>
+        <div class="senha-container" style="position: relative; max-width: 400px; margin: 0 auto;">
+
+             <input type="password" id="input-senha" placeholder="Digite a senha" style="padding-right: 40px;" onkeypress="verificarEnter(event)">
+             
+            <button type="button" class="toggle-senha" onclick="toggleSenha()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--primary); font-size: 18px; width: auto; padding: 0; margin: 0; cursor: pointer;">👁</button>
+        </div>
+        <button onclick="verificarSenha()">Entrar</button>
+        <p id="erro-senha" style="color: #ff4d4d; display: none; text-align: center; margin-top: 10px;">Senha incorreta!</p>
+    </div>
+
+    <!-- TELA DO VOTANTE -->
+    <div id="tela-votacao" class="container" style="display: none;">
+        <!-- BOTÕES DE SAIR E TEMA -->
+        <div class="top-buttons">
+            <button class="btn-topo" onclick="sair()">Sair</button>
+            <button class="btn-topo" onclick="alternarTema()">🌓 Tema Claro/Escuro</button>
+        </div>
+
+        <img src="logo.png" alt="Logo CINETEC" class="logo">
+        <h2>Votação Oscar CINETEC 2026</h2>
+        
+        <div id="area-votacao-form">
+            <button onclick="mostrarFilmes()" style="background: #031d4e; border: 1px solid #d4a356; color: #d4a356; margin-bottom: 30px;">
+                🎬 Assistir aos Curtas
+            </button>
+
+            <div id="galeria-curtas">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0;">Filmes em Competição</h3>
+                    <button onclick="esconderFilmes()" class="btn-topo" style="margin: 0;">⬅ Voltar</button>
+                </div>
+                <div class="grid-curtas" id="lista-cards"></div>
+            </div>
+
+            <hr style="border-color: var(--border-color); margin: 40px 0;" id="linha-divisoria">
+
+            <h3>Registre seu Voto</h3>
+            <form id="form-voto">
+                <label>Matrícula (4 dígitos):</label>
+                <input type="text" id="matricula" maxlength="4" required pattern="\d{4}" placeholder="Ex: 1234">
+
+                <label>Melhor Fotografia:</label>
+                <select id="melhor_fotografia" required></select>
+
+                <label>Melhor Roteiro:</label>
+                <select id="melhor_roteiro" required></select>
+
+                <!-- Melhor Ator -->
+                <label>Melhor Ator:</label>
+                <select id="curta_ator" required onchange="carregarNomesDoElenco('ator')">
+                    <option value="">1. Selecione o Curta...</option>
+                </select>
+                <select id="melhor_ator_select" required>
+                    <option value="">2. Selecione o Ator...</option>
+                </select>
+                <input type="hidden" id="nome_ator" value=""> 
+
+                <!-- Melhor Atriz -->
+                <label>Melhor Atriz:</label>
+                <select id="curta_atriz" required onchange="carregarNomesDoElenco('atriz')">
+                    <option value="">1. Selecione o Curta...</option>
+                </select>
+                <select id="melhor_atriz_select" required>
+                    <option value="">2. Selecione a Atriz...</option>
+                </select>
+                <input type="hidden" id="nome_atriz" value="">
+                
+                <label>Melhor Curta:</label>
+                <select id="melhor_curta" required></select>
+
+                <button type="submit">Enviar Voto</button>
+            </form>
+            
+            
+        </div>
+
+                     <!-- TELA DE OBRIGADO (Aparece após votar) -->
+                    <div id="tela-obrigado">
+                <h1>Obrigado por Votar!</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 40px;">Seu voto foi registrado com sucesso no Oscar CINETEC 2026.</p>
+                
+                <div style="background: rgba(212, 163, 86, 0.1); padding: 30px; border-radius: 15px; border: 1px dashed #d4a356; max-width: 500px; margin: 0 auto;">
+                    <h3 style="margin-bottom: 15px;">Poste no Instagram!</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+                        Baixe a capa oficial do Oscar CINETEC e mostre para todo mundo que você já votou!
+                    </p>
+                    
+                    <!-- O ID "link-download-capa" será usado no JavaScript -->
+                    <a id="link-download-capa" href="capa-instagram.png" download="Capa-Oscar-CINETEC.png">
+                        <button type="button" onclick="baixarCapa()" style="background: linear-gradient(90deg, #d4a356 0%, #f37321 100%); width: auto; padding: 15px 30px; margin: 0 auto; font-size: 16px;">
+                            📥 Baixar Capa para o Instagram
+                        </button>
+                    </a>
+                </div>
+            </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
