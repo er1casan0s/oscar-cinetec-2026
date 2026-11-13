@@ -6,23 +6,23 @@
     <title>Painel do Diretor - CINETEC</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="light-theme"> <!-- Já inicia no tema claro -->
+<body class="light-theme">
 
-        <div class="container">
+    <div class="container">
         <div class="top-buttons">
-            <a href="index.html"><button class="btn-topo" style="background: #ff4d4d; color: white; border: none;">Sair</button></a>
-             <!-- NOVO BOTÃO DE DOWNLOAD AQUI -->
-            <a id="link-download-capa-diretor" href="capa-instagram.png" download="Capa-Oscar-CINETEC.png">
-                <button class="btn-topo" onclick="baixarCapaDiretor()">📥 Baixar Capa</button>
+            <a href="index.html" style="flex: 1;"><button class="btn-topo" style="background: #ff4d4d; color: white; border: none; width: 100%;">Sair</button></a>
+            
+            <a id="link-download-capa-diretor" href="capa-instagram.png" download="Capa-Oscar-CINETEC.png" style="flex: 1;">
+                <button class="btn-topo" onclick="baixarCapaDiretor()" style="width: 100%;">📥 Baixar Capa</button>
             </a>
 
-            <button class="btn-topo" onclick="alternarTema()">🌓 Tema Claro/Escuro</button>
+            <button class="btn-topo" onclick="alternarTema()" style="flex: 1;">🌓 Tema Claro/Escuro</button>
         </div>
         
         <img src="logo.png" alt="Logo CINETEC" class="logo" style="width: 150px;">
         <h2>Painel do Diretor</h2>
 
-        <!-- ÁREA 1: FORMULÁRIO DE CADASTRO (Aparece só se não tiver curta) -->
+        <!-- ÁREA 1: FORMULÁRIO DE CADASTRO -->
         <div id="area-cadastro" class="admin-section active" style="display: none;">
             <h3>Cadastrar Meu Curta (Apenas 1 por diretor)</h3>
             <form id="form-diretor">
@@ -33,32 +33,40 @@
                 
                 <input type="text" id="direcao" placeholder="Direção (Seu nome)" required>
                 
-                <select id="genero" required>
-                    <option value="">Selecione o Gênero...</option>
-                    <option value="Comédia">Comédia</option>
-                    <option value="Suspense">Suspense</option>
-                    <option value="Drama">Drama</option>
-                </select>
+                <!-- Gêneros com Checkbox -->
+                <div style="margin-top: 10px; margin-bottom: 10px;">
+                    <label style="margin-bottom: 5px;">Gênero (Pode marcar mais de um):</label>
+                    <div style="display: flex; gap: 15px; color: var(--text-main); flex-wrap: wrap;">
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Comédia" style="width: auto; margin-right: 5px;"> Comédia
+                        </label>
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Suspense" style="width: auto; margin-right: 5px;"> Suspense
+                        </label>
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Drama" style="width: auto; margin-right: 5px;"> Drama
+                        </label>
+                    </div>
+                </div>
                 
-                <input type="text" id="elenco" placeholder="Ex: Nome do Personagem 1 - Nome Sobrenome Ator/Atriz 1,Nome do Personagem 2 - Nome Sobrenome Ator/Atriz 2, ... " required>
+                <input type="text" id="elenco" placeholder="Elenco (Ex: Personagem - Nome do Ator, ...)" required>
                 
-                <button type="submit" id="btn-cadastrar">Cadastrar Meu Curta</button>
+                <button type="submit" id="btn-cadastrar" style="margin-top: 20px;">Cadastrar Meu Curta</button>
             </form>
         </div>
 
-               <!-- ÁREA 2: MEU CURTA (Aparece só se já tiver cadastrado) -->
+        <!-- ÁREA 2: MEU CURTA -->
         <div id="area-meu-curta" class="admin-section" style="display: none;">
             <h3>Meu Curta Cadastrado</h3>
             <div id="card-meu-curta" style="max-width: 400px; margin: 0 auto 20px auto;"></div>
             
-            <!-- Botões de Ação: Editar e Excluir -->
             <div style="display: flex; gap: 10px; max-width: 400px; margin: 0 auto;">
                 <button type="button" id="btn-abrir-edicao" onclick="abrirEdicao()" style="flex: 1; margin: 0;">✏️ Editar Meus Dados</button>
                 <button type="button" onclick="excluirMeuCurta()" style="flex: 1; margin: 0; background: #ff4d4d;">🗑️ Excluir Curta</button>
             </div>
         </div>
 
-        <!-- ÁREA 3: FORMULÁRIO DE EDIÇÃO (Escondido, aparece ao clicar em editar) -->
+        <!-- ÁREA 3: FORMULÁRIO DE EDIÇÃO -->
         <div id="area-edicao" class="admin-section" style="display: none;">
             <h3>Editando Meu Curta</h3>
             <form id="form-edicao">
@@ -71,9 +79,11 @@
                 </small>
                 
                 <input type="text" id="edit_direcao" required>
-                <select id="edit_genero" required>                <div style="margin-top: 10px; margin-bottom: 10px;">
+                
+                <!-- Gêneros com Checkbox -->
+                <div style="margin-top: 10px; margin-bottom: 10px;">
                     <label style="margin-bottom: 5px;">Gênero (Pode marcar mais de um):</label>
-                    <div style="display: flex; gap: 15px; color: var(--text-main);">
+                    <div style="display: flex; gap: 15px; color: var(--text-main); flex-wrap: wrap;">
                         <label style="font-weight: normal; margin: 0; cursor: pointer;">
                             <input type="checkbox" class="genero-checkbox" value="Comédia" style="width: auto; margin-right: 5px;"> Comédia
                         </label>
@@ -85,12 +95,12 @@
                         </label>
                     </div>
                 </div>
-                </select>
+
                 <input type="text" id="edit_elenco" required>
                 
-                <div style="display: flex; gap: 10px;">
-                    <button type="submit" style="flex: 1;">Salvar Alterações</button>
-                    <button type="button" onclick="cancelarEdicaoDiretor()" style="flex: 1; background: #ff4d4d;">Cancelar</button>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" style="flex: 1; margin-top: 0;">Salvar Alterações</button>
+                    <button type="button" onclick="cancelarEdicaoDiretor()" style="flex: 1; margin-top: 0; background: #ff4d4d;">Cancelar</button>
                 </div>
             </form>
         </div>
