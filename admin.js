@@ -66,7 +66,12 @@ function prepararEdicao(id) {
     document.getElementById('nome_curta').value = curta.nome;
     document.getElementById('link_video').value = curta.link_video;
     document.getElementById('direcao').value = curta.direcao || '';
-    document.getElementById('genero').value = curta.genero || '';
+     // --- NOVO CÓDIGO PARA MARCAR OS CHECKBOXES NA EDIÇÃO ---
+    const generosSalvos = curta.genero ? curta.genero.split(', ') : [];
+    document.querySelectorAll('.genero-checkbox').forEach(cb => {
+        cb.checked = generosSalvos.includes(cb.value);
+    });
+    // -------------------------------------------------------
     document.getElementById('elenco').value = curta.elenco || '';
     document.getElementById('capa_arquivo').value = '';
 
@@ -93,9 +98,12 @@ document.getElementById('form-admin').addEventListener('submit', async (e) => {
     const nome = document.getElementById('nome_curta').value.trim();
     const video = document.getElementById('link_video').value.trim();
     const direcao = document.getElementById('direcao').value.trim();
-    // Pega todos os checkboxes que foram marcados e junta os valores em uma string (ex: "Comédia, Drama")
+    
+    // --- NOVO CÓDIGO DO GÊNERO AQUI ---
     const checkboxesMarcados = document.querySelectorAll('.genero-checkbox:checked');
     const genero = Array.from(checkboxesMarcados).map(cb => cb.value).join(', ');
+    // ----------------------------------
+
     const elenco = document.getElementById('elenco').value.trim();
     const inputArquivo = document.getElementById('capa_arquivo');
     const arquivoCapa = inputArquivo.files[0];
