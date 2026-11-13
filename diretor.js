@@ -57,7 +57,8 @@ document.getElementById('form-diretor').addEventListener('submit', async (e) => 
     const nome = document.getElementById('nome_curta').value.trim();
     const video = document.getElementById('link_video').value.trim();
     const direcao = document.getElementById('direcao').value.trim();
-    const genero = document.getElementById('genero').value;
+    const checkboxesMarcados = document.querySelectorAll('.genero-checkbox:checked');
+    const genero = Array.from(checkboxesMarcados).map(cb => cb.value).join(', ');
     const elenco = document.getElementById('elenco').value.trim();
     const arquivoCapa = document.getElementById('capa_arquivo').files[0];
 
@@ -88,6 +89,7 @@ document.getElementById('form-diretor').addEventListener('submit', async (e) => 
 // --- ABRIR TELA DE EDIÇÃO ---
 function abrirEdicao() {
     if (!meuCurta) return;
+
     
     // Esconde a área do card e mostra a área do formulário de edição
     document.getElementById('area-meu-curta').style.display = 'none';
@@ -99,6 +101,12 @@ function abrirEdicao() {
     document.getElementById('edit_direcao').value = meuCurta.direcao;
     document.getElementById('edit_genero').value = meuCurta.genero;
     document.getElementById('edit_elenco').value = meuCurta.elenco;
+
+    // Marca os checkboxes corretos baseado no que está salvo
+    const generosSalvos = meuCurta.genero ? meuCurta.genero.split(', ') : [];
+    document.querySelectorAll('.genero-checkbox').forEach(cb => {
+        cb.checked = generosSalvos.includes(cb.value);
+    });
     
     // Rola a tela para cima para o usuário ver o formulário
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -120,7 +128,8 @@ document.getElementById('form-edicao').addEventListener('submit', async (e) => {
     const nome = document.getElementById('edit_nome').value.trim();
     const video = document.getElementById('edit_video').value.trim();
     const direcao = document.getElementById('edit_direcao').value.trim();
-    const genero = document.getElementById('edit_genero').value;
+    const checkboxesMarcados = document.querySelectorAll('.genero-checkbox:checked');
+    const genero = Array.from(checkboxesMarcados).map(cb => cb.value).join(', ');
     const elenco = document.getElementById('edit_elenco').value.trim();
     const arquivoCapa = document.getElementById('edit_capa').files[0];
 
