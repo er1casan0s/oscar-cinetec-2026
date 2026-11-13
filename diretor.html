@@ -71,10 +71,20 @@
                 </small>
                 
                 <input type="text" id="edit_direcao" required>
-                <select id="edit_genero" required>
-                    <option value="Comédia">Comédia</option>
-                    <option value="Suspense">Suspense</option>
-                    <option value="Drama">Drama</option>
+                <select id="edit_genero" required>                <div style="margin-top: 10px; margin-bottom: 10px;">
+                    <label style="margin-bottom: 5px;">Gênero (Pode marcar mais de um):</label>
+                    <div style="display: flex; gap: 15px; color: var(--text-main);">
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Comédia" style="width: auto; margin-right: 5px;"> Comédia
+                        </label>
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Suspense" style="width: auto; margin-right: 5px;"> Suspense
+                        </label>
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Drama" style="width: auto; margin-right: 5px;"> Drama
+                        </label>
+                    </div>
+                </div>
                 </select>
                 <input type="text" id="edit_elenco" required>
                 
