@@ -93,7 +93,9 @@ document.getElementById('form-admin').addEventListener('submit', async (e) => {
     const nome = document.getElementById('nome_curta').value.trim();
     const video = document.getElementById('link_video').value.trim();
     const direcao = document.getElementById('direcao').value.trim();
-    const genero = document.getElementById('genero').value;
+    // Pega todos os checkboxes que foram marcados e junta os valores em uma string (ex: "Comédia, Drama")
+    const checkboxesMarcados = document.querySelectorAll('.genero-checkbox:checked');
+    const genero = Array.from(checkboxesMarcados).map(cb => cb.value).join(', ');
     const elenco = document.getElementById('elenco').value.trim();
     const inputArquivo = document.getElementById('capa_arquivo');
     const arquivoCapa = inputArquivo.files[0];
