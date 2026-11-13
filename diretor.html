@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="favicon.png">
     <title>Painel do Diretor - CINETEC</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -61,7 +60,8 @@
             <h3>Meu Curta Cadastrado</h3>
             <div id="card-meu-curta" style="max-width: 400px; margin: 0 auto 20px auto;"></div>
             
-            <div style="display: flex; gap: 10px; max-width: 400px; margin: 0 auto;">
+            <!-- [ALTERAÇÃO AQUI] - Adicionado o id="botoes-acao-diretor" -->
+            <div id="botoes-acao-diretor" style="display: flex; gap: 10px; max-width: 400px; margin: 0 auto;">
                 <button type="button" id="btn-abrir-edicao" onclick="abrirEdicao()" style="flex: 1; margin: 0;">✏️ Editar Meus Dados</button>
                 <button type="button" onclick="excluirMeuCurta()" style="flex: 1; margin: 0; background: #ff4d4d;">🗑️ Excluir Curta</button>
             </div>
