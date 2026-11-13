@@ -35,7 +35,7 @@ async function carregarCurtasAdmin() {
 
             curtas.forEach(curta => {
         // Verifica se o curta foi criado por um diretor ou pelo admin
-        const quemCriou = curta.criado_por ? curta.criado_por : "Admin";
+        const quemCriou = curta.criado_por ? (curta.direcao || curta.criado_por) : "Admin";
 
         tbody.innerHTML += `
             <tr>
