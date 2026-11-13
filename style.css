@@ -156,3 +156,93 @@ td img { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
     color: var(--primary);
     font-weight: bold;
 }
+
+/* =========================================
+   RESPONSIVIDADE PARA CELULARES E TABLETS
+   ========================================= */
+@media (max-width: 768px) {
+    /* 1. Diminui os espaços das bordas da tela */
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px 15px;
+        border-top-width: 6px;
+        border-bottom-width: 6px;
+    }
+
+    /* 2. Ajusta o logo para não ficar gigante */
+    .logo {
+        width: 140px !important;
+        margin-bottom: 15px;
+    }
+
+    /* 3. Botões do topo (Sair, Tema, Download) se ajustam */
+    .top-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .btn-topo {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 4. Formulários (Cadastro de curta) em uma única coluna */
+    form {
+        padding: 20px 15px;
+    }
+    #form-admin {
+        grid-template-columns: 1fr !important; /* Força uma coluna só */
+    }
+    
+    /* 5. Painel Admin: Abas e Tabelas */
+    .admin-tabs {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .tab-btn {
+        width: 100%;
+    }
+
+    /* A MÁGICA DAS TABELAS: Cria rolagem lateral para não quebrar o layout */
+    .admin-section {
+        overflow-x: auto;
+        padding: 10px;
+    }
+    table {
+        min-width: 600px; /* Força a tabela a ter um tamanho mínimo para não esmagar as colunas */
+        font-size: 0.8rem;
+    }
+    th, td {
+        padding: 8px;
+        white-space: nowrap; /* Impede que o texto das células quebre ao meio */
+    }
+
+    /* 6. Gráficos (Quantitativo por Categoria) */
+    /* Transforma a grade de 2 colunas em 1 coluna */
+    div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 7. Tela de Votação (Cards e Formulário) */
+    .grid-curtas {
+        grid-template-columns: 1fr; /* Um card embaixo do outro */
+    }
+    .card-filme img {
+        aspect-ratio: 16 / 9; /* Deixa a imagem mais retangular no celular para não ficar muito alta */
+    }
+    
+    /* Ajusta o campo de ator/atriz que fica lado a lado */
+    #form-voto .ator-container {
+        flex-direction: column;
+    }
+    
+    /* Ajusta a tela de Obrigado */
+    #tela-obrigado h1 {
+        font-size: 1.8rem;
+    }
+    #tela-obrigado div {
+        padding: 20px 15px !important;
+    }
+}
