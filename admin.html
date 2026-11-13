@@ -44,10 +44,20 @@
                 <input type="text" id="direcao" placeholder="Direção (Nome do Diretor)" required>
                 
                 <select id="genero" required>
-                    <option value="">Selecione o Gênero...</option>
-                    <option value="Comédia">Comédia</option>
-                    <option value="Suspense">Suspense</option>
-                    <option value="Drama">Drama</option>
+                                   <div style="grid-column: 1 / -1; margin-top: 10px;">
+                    <label style="margin-bottom: 5px;">Gênero (Pode marcar mais de um):</label>
+                    <div style="display: flex; gap: 15px; color: var(--text-main);">
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Comédia" style="width: auto; margin-right: 5px;"> Comédia
+                        </label>
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Suspense" style="width: auto; margin-right: 5px;"> Suspense
+                        </label>
+                        <label style="font-weight: normal; margin: 0; cursor: pointer;">
+                            <input type="checkbox" class="genero-checkbox" value="Drama" style="width: auto; margin-right: 5px;"> Drama
+                        </label>
+                    </div>
+                </div>
                 </select>
                 
                 <input type="text" id="elenco" placeholder="Nome do Personagem 1 - Nome Sobrenome Ator/Atriz 1,Nome do Personagem 2 - Nome Sobrenome Ator/Atriz 2, ..." required style="grid-column: 1 / -1;">
