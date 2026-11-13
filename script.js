@@ -134,8 +134,13 @@ function esconderFilmes() {
 // --- ENVIAR VOTO ---
 document.getElementById('form-voto').addEventListener('submit', async (e) => {
     e.preventDefault(); 
-    const matricula = document.getElementById('matricula').value;
-     const voto = {
+    const matricula = document.getElementById('matricula').value.trim;
+     if (matricula === "") {
+        alert("Por favor, digite sua matrícula.");
+         return;
+     }
+    
+    const voto = {
         matricula: matricula,
         melhor_fotografia: document.getElementById('melhor_fotografia').value,
         melhor_roteiro: document.getElementById('melhor_roteiro').value,
