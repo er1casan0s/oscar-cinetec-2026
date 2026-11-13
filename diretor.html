@@ -22,6 +22,14 @@
         <img src="logo.png" alt="Logo CINETEC" class="logo" style="width: 150px;">
         <h2>Painel do Diretor</h2>
 
+        <!-- ========================================== -->
+        <!-- LEMBRETE FIXO DE PRAZO (NOVO)              -->
+        <!-- ========================================== -->
+        <div style="background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            ⚠️ <strong>Atenção:</strong> O prazo final para cadastrar, editar ou excluir o seu curta é <strong>14/11/2026 até as 12h</strong>. Após esse horário, as alterações estarão bloqueadas!
+        </div>
+        <!-- ========================================== -->
+
         <!-- ÁREA 1: FORMULÁRIO DE CADASTRO -->
         <div id="area-cadastro" class="admin-section active" style="display: none;">
             <h3>Cadastrar Meu Curta (Apenas 1 por diretor)</h3>
@@ -60,7 +68,7 @@
             <h3>Meu Curta Cadastrado</h3>
             <div id="card-meu-curta" style="max-width: 400px; margin: 0 auto 20px auto;"></div>
             
-            <!-- [ALTERAÇÃO AQUI] - Adicionado o id="botoes-acao-diretor" -->
+            <!-- O ID "botoes-acao-diretor" é necessário para o JS esconder os botões após a data limite -->
             <div id="botoes-acao-diretor" style="display: flex; gap: 10px; max-width: 400px; margin: 0 auto;">
                 <button type="button" id="btn-abrir-edicao" onclick="abrirEdicao()" style="flex: 1; margin: 0;">✏️ Editar Meus Dados</button>
                 <button type="button" onclick="excluirMeuCurta()" style="flex: 1; margin: 0; background: #ff4d4d;">🗑️ Excluir Curta</button>
