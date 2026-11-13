@@ -43,10 +43,10 @@
                 
                 <input type="text" id="direcao" placeholder="Direção (Nome do Diretor)" required>
                 
-                <select id="genero" required>
-                                   <div style="grid-column: 1 / -1; margin-top: 10px;">
+                <!-- Gêneros com Checkbox -->
+                <div style="grid-column: 1 / -1; margin-top: 10px;">
                     <label style="margin-bottom: 5px;">Gênero (Pode marcar mais de um):</label>
-                    <div style="display: flex; gap: 15px; color: var(--text-main);">
+                    <div style="display: flex; gap: 15px; color: var(--text-main); flex-wrap: wrap;">
                         <label style="font-weight: normal; margin: 0; cursor: pointer;">
                             <input type="checkbox" class="genero-checkbox" value="Comédia" style="width: auto; margin-right: 5px;"> Comédia
                         </label>
@@ -58,14 +58,13 @@
                         </label>
                     </div>
                 </div>
-                </select>
                 
-                <input type="text" id="elenco" placeholder="Nome do Personagem 1 - Nome Sobrenome Ator/Atriz 1,Nome do Personagem 2 - Nome Sobrenome Ator/Atriz 2, ..." required style="grid-column: 1 / -1;">
+                <input type="text" id="elenco" placeholder="Elenco (Ex: Personagem - Nome do Ator, ...)" required style="grid-column: 1 / -1;">
                 
-                <div style="grid-column: 1 / -1; display: flex; gap: 10px;">
-                    <button type="submit" id="btn-cadastrar" style="flex: 1;">Cadastrar Curta</button>
-                    <!-- Botão de cancelar edição (escondido por padrão) -->
-                    <button type="button" id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="flex: 1; background: #ff4d4d; display: none;">Cancelar Edição</button>
+                <!-- Botões Alinhados -->
+                <div style="grid-column: 1 / -1; display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" id="btn-cadastrar" style="flex: 1; margin-top: 0;">Cadastrar Curta</button>
+                    <button type="button" id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="flex: 1; margin-top: 0; background: #ff4d4d; display: none;">Cancelar Edição</button>
                 </div>
             </form>
 
@@ -76,7 +75,7 @@
                         <th>Capa</th>
                         <th>Nome</th>
                         <th>Gênero</th>
-                        <th>Criado Por</th> <!-- NOVA COLUNA AQUI -->
+                        <th>Criado Por</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -105,7 +104,6 @@
         <!-- ABA 3: GRÁFICOS E QUANTITATIVOS -->
         <div id="aba-graficos" class="admin-section">
             <h3>Melhor Curta (Votos Totais)</h3>
-            <!-- Canvas onde o gráfico será desenhado -->
             <div style="background: var(--bg-form); padding: 20px; border-radius: 10px; margin-bottom: 30px;">
                 <canvas id="graficoMelhorCurta"></canvas>
             </div>
@@ -135,9 +133,7 @@
 
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Biblioteca de Gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Seu arquivo de lógica -->
     <script src="admin.js"></script>
 </body>
 </html>
