@@ -246,3 +246,12 @@ td img { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
         padding: 20px 15px !important;
     }
 }
+
+
+/* Estilo para os Checkboxes de Gênero */
+.genero-checkbox {
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer;
+    accent-color: var(--primary); /* Deixa a caixinha na cor dourada */
+}
