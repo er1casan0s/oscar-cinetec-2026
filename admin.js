@@ -301,5 +301,23 @@ async function carregarGraficos() {
     preencherLista('lista-atriz', contagemAtriz); // Vai mostrar "Atriz (Curta)"
 }
 
+// --- FUNÇÕES DE DATA LIMITE (ADMIN) ---
+function salvarDataLimite() {
+    const dataInput = document.getElementById('data_limite_admin').value;
+    if (!dataInput) return alert("Por favor, selecione uma data e hora.");
+    
+    // Salva a data no navegador (localStorage)
+    localStorage.setItem('cinetec_data_limite', dataInput);
+    alert("Data limite salva com sucesso! Diretores não poderão mais editar após esse horário.");
+}
+
+// Carrega a data salva quando o admin abre a página
+function carregarDataLimiteAdmin() {
+    const dataSalva = localStorage.getItem('cinetec_data_limite');
+    if (dataSalva) {
+        document.getElementById('data_limite_admin').value = dataSalva;
+    }
+}
+
 // Inicializa
 carregarCurtasAdmin();
