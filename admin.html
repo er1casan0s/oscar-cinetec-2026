@@ -14,7 +14,14 @@
             <a href="index.html"><button class="btn-topo">Sair do Admin</button></a>
             <button class="btn-topo" onclick="alternarTema()">🌓 Tema Claro/Escuro</button>
         </div>
-        
+                <!-- Caixa de Configuração de Data Limite -->
+        <div style="background: var(--bg-form); padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div>
+                <label style="margin: 0; color: var(--primary);">⏳ Data Limite para Diretores Editarem:</label>
+                <input type="datetime-local" id="data_limite_admin" style="width: auto; margin-top: 5px;">
+            </div>
+            <button type="button" onclick="salvarDataLimite()" style="margin: 0; width: auto; padding: 10px 20px; font-size: 14px;">Salvar Data</button>
+        </div>
         <img src="logo.png" alt="Logo CINETEC" class="logo" style="width: 120px;">
         <h2>Painel de Controle</h2>
 
