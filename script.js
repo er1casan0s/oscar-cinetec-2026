@@ -205,15 +205,10 @@ function carregarNomesDoElenco(tipo) {
         
         nomes.forEach(nomeCompleto => {
             if (nomeCompleto !== "") { 
-                // O SEGREDO ESTÁ AQUI: Se tiver um traço "-", ele separa o nome do ator
-                let nomeExibicao = nomeCompleto;
-                
-                if (nomeCompleto.includes('-')) {
-                    // Pega a parte depois do traço (o nome do ator) e tira os espaços
-                    nomeExibicao = nomeCompleto.split('-')[1].trim();
-                }
+                // O CÓDIGO FOI ALTERADO AQUI: Agora ele exibe o nome completo, incluindo o personagem
+                let nomeExibicao = nomeCompleto; 
 
-                // Coloca o nome do ator na lista
+                // Coloca o texto inteiro na lista (ex: "Homem-Aranha - Tom Holland")
                 selectNomes.innerHTML += `<option value="${nomeExibicao}">${nomeExibicao}</option>`;
             }
         });
