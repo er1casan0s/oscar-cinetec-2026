@@ -9,7 +9,7 @@ if (senhaAdmin !== "@admin2026") {
 }
 
 let listaDeCurtas = [];
-let meuGrafico = null; // Variável para guardar a instância do gráfico
+let meuGrafico = null;
 
 function alternarTema() {
     document.body.classList.toggle('light-theme');
@@ -22,7 +22,7 @@ function mudarAba(idAba, botaoClicado) {
     botaoClicado.classList.add('active');
     
     if(idAba === 'aba-votos') carregarVotos();
-    if(idAba === 'aba-graficos') carregarGraficos(); // <-- ADICIONADO AQUI
+    if(idAba === 'aba-graficos') carregarGraficos();
 }
 
 async function carregarCurtasAdmin() {
@@ -33,8 +33,7 @@ async function carregarCurtasAdmin() {
     const tbody = document.querySelector('#tabela-curtas tbody');
     tbody.innerHTML = '';
 
-            curtas.forEach(curta => {
-        // Verifica se o curta foi criado por um diretor ou pelo admin
+    curtas.forEach(curta => {
         const quemCriou = curta.criado_por ? (curta.direcao || curta.criado_por) : "Admin";
 
         tbody.innerHTML += `
@@ -42,15 +41,17 @@ async function carregarCurtasAdmin() {
                 <td><img src="${curta.link_capa}" onerror="this.src='https://via.placeholder.com/60x40/111/d4a356?text=S/C'"></td>
                 <td>${curta.nome}</td>
                 <td>${curta.genero || '-'}</td>
-                <td style="color: #d4a356; font-weight: bold;">${quemCriou}</td> <!-- MOSTRA QUEM CRIOU -->
+                <td style="color: #d4a356; font-weight: bold;">${quemCriou}</td>
                 <td>
-                    <button class="btn-excluir" style="background: #031d4e; color: #d4a356; border: 1px solid #d4a356;" onclick="prepararEdicao(${curta.id})">Editar</button>
-                    <button class="btn-excluir" onclick="excluirCurta(${curta.id})">Excluir</button>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn-excluir" style="background: #031d4e; color: #d4a356; border: 1px solid #d4a356; padding: 5px 10px; font-size: 11px;" onclick="prepararEdicao(${curta.id})">Editar</button>
+                        <button class="btn-excluir" style="padding: 5px 10px; font-size: 11px;" onclick="excluirCurta(${curta.id})">Excluir</button>
+                    </div>
                 </td>
             </tr>
         `;
     });
-        return true;
+    return true;
 }
 
 // --- FUNÇÃO PARA PREPARAR A EDIÇÃO ---
@@ -64,21 +65,21 @@ function prepararEdicao(id) {
 
     document.getElementById('curta_id_editando').value = curta.id;
     document.getElementById('nome_curta').value = curta.nome;
+    document.getElementById('sinopse').value = curta.sinopse || ''; // <-- [NOVO] Preenche a sinopse
     document.getElementById('link_video').value = curta.link_video;
     document.getElementById('direcao').value = curta.direcao || '';
-     // --- NOVO CÓDIGO PARA MARCAR OS CHECKBOXES NA EDIÇÃO ---
+    document.getElementById('elenco').value = curta.elenco || '';
+    document.getElementById('capa_arquivo').value = '';
+
+    // Marca os checkboxes corretos
     const generosSalvos = curta.genero ? curta.genero.split(', ') : [];
     document.querySelectorAll('.genero-checkbox').forEach(cb => {
         cb.checked = generosSalvos.includes(cb.value);
     });
-    // -------------------------------------------------------
-    document.getElementById('elenco').value = curta.elenco || '';
-    document.getElementById('capa_arquivo').value = '';
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- FUNÇÃO PARA CANCELAR A EDIÇÃO ---
 function cancelarEdicao() {
     document.getElementById('form-admin').reset();
     document.getElementById('curta_id_editando').value = '';
@@ -96,14 +97,11 @@ document.getElementById('form-admin').addEventListener('submit', async (e) => {
     const estaEditando = idEditando !== '';
 
     const nome = document.getElementById('nome_curta').value.trim();
+    const sinopse = document.getElementById('sinopse').value.trim(); // <-- [NOVO]
     const video = document.getElementById('link_video').value.trim();
     const direcao = document.getElementById('direcao').value.trim();
-    
-    // --- NOVO CÓDIGO DO GÊNERO AQUI ---
     const checkboxesMarcados = document.querySelectorAll('.genero-checkbox:checked');
     const genero = Array.from(checkboxesMarcados).map(cb => cb.value).join(', ');
-    // ----------------------------------
-
     const elenco = document.getElementById('elenco').value.trim();
     const inputArquivo = document.getElementById('capa_arquivo');
     const arquivoCapa = inputArquivo.files[0];
@@ -132,7 +130,12 @@ document.getElementById('form-admin').addEventListener('submit', async (e) => {
         }
 
         const dadosCurta = {
-            nome: nome, link_video: video, direcao: direcao, genero: genero, elenco: elenco
+            nome: nome, 
+            sinopse: sinopse, // <-- [NOVO]
+            link_video: video, 
+            direcao: direcao, 
+            genero: genero, 
+            elenco: elenco
         };
         
         if (linkCapaPublica) {
@@ -208,7 +211,7 @@ async function carregarVotos() {
     }
 }
 
-// --- NOVA FUNÇÃO: CARREGAR GRÁFICOS E QUANTITATIVOS ---
+// --- CARREGAR GRÁFICOS ---
 async function carregarGraficos() {
     if (listaDeCurtas.length === 0) await carregarCurtasAdmin();
 
@@ -218,8 +221,6 @@ async function carregarGraficos() {
     let contagemMelhorCurta = {};
     let contagemFotografia = {};
     let contagemRoteiro = {};
-    
-    // Agora as chaves vão ser compostas: "Nome do Ator (Nome do Curta)"
     let contagemAtor = {}; 
     let contagemAtriz = {};
 
@@ -240,14 +241,12 @@ async function carregarGraficos() {
         const roteiro = getNome(voto.melhor_roteiro);
         contagemRoteiro[roteiro] = (contagemRoteiro[roteiro] || 0) + 1;
 
-        // JUNTA O NOME DO ATOR COM O NOME DO FILME
         if (voto.melhor_ator) {
             const nomeDoCurtaDoAtor = getNome(voto.curta_ator);
             const chaveAtor = `${voto.melhor_ator} (${nomeDoCurtaDoAtor})`;
             contagemAtor[chaveAtor] = (contagemAtor[chaveAtor] || 0) + 1;
         }
 
-        // JUNTA O NOME DA ATRIZ COM O NOME DO FILME
         if (voto.melhor_atriz) {
             const nomeDoCurtaDaAtriz = getNome(voto.curta_atriz);
             const chaveAtriz = `${voto.melhor_atriz} (${nomeDoCurtaDaAtriz})`;
@@ -255,7 +254,6 @@ async function carregarGraficos() {
         }
     });
 
-    // Desenhar o Gráfico de Melhor Curta (continua igual)
     const ctx = document.getElementById('graficoMelhorCurta').getContext('2d');
     if (meuGrafico) meuGrafico.destroy();
 
@@ -282,7 +280,6 @@ async function carregarGraficos() {
         }
     });
 
-    // Preencher as listas quantitativas
     const preencherLista = (idElemento, objetoContagem) => {
         const ul = document.getElementById(idElemento);
         ul.innerHTML = '';
@@ -297,26 +294,8 @@ async function carregarGraficos() {
 
     preencherLista('lista-fotografia', contagemFotografia);
     preencherLista('lista-roteiro', contagemRoteiro);
-    preencherLista('lista-ator', contagemAtor);   // Vai mostrar "Ator (Curta)"
-    preencherLista('lista-atriz', contagemAtriz); // Vai mostrar "Atriz (Curta)"
-}
-
-// --- FUNÇÕES DE DATA LIMITE (ADMIN) ---
-function salvarDataLimite() {
-    const dataInput = document.getElementById('data_limite_admin').value;
-    if (!dataInput) return alert("Por favor, selecione uma data e hora.");
-    
-    // Salva a data no navegador (localStorage)
-    localStorage.setItem('cinetec_data_limite', dataInput);
-    alert("Data limite salva com sucesso! Diretores não poderão mais editar após esse horário.");
-}
-
-// Carrega a data salva quando o admin abre a página
-function carregarDataLimiteAdmin() {
-    const dataSalva = localStorage.getItem('cinetec_data_limite');
-    if (dataSalva) {
-        document.getElementById('data_limite_admin').value = dataSalva;
-    }
+    preencherLista('lista-ator', contagemAtor);
+    preencherLista('lista-atriz', contagemAtriz);
 }
 
 // Inicializa
