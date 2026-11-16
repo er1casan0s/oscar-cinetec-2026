@@ -36,6 +36,8 @@
             <h3>Cadastrar Meu Curta (Apenas 1 por diretor)</h3>
             <form id="form-diretor">
                 <input type="text" id="nome_curta" placeholder="Nome do Curta" required>
+                <!-- [NOVO] Campo de Sinopse -->
+            <textarea id="sinopse" placeholder="Sinopse do Curta (Resumo da história)" required rows="4" style="margin-top: 5px; resize: vertical;"></textarea>
                 <input type="url" id="link_video" placeholder="Link do YouTube (ex: https://youtu.be/...)" required>
                 
                 <input type="file" id="capa_arquivo" accept="image/*" required>
@@ -81,6 +83,8 @@
             <h3>Editando Meu Curta</h3>
             <form id="form-edicao">
                 <input type="text" id="edit_nome" required>
+                <!-- [NOVO] Campo de Sinopse na Edição -->
+<textarea id="edit_sinopse" required rows="4" style="margin-top: 5px; resize: vertical;"></textarea>
                 <input type="url" id="edit_video" required>
                 
                 <input type="file" id="edit_capa" accept="image/*">
