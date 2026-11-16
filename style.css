@@ -201,3 +201,15 @@ td img { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+
+
+/* Ajuste da Logo no Tema Escuro */
+body:not(.light-theme) .logo {
+    /* O filtro "invert" transforma o branco em preto, mas também inverte o dourado.
+       Para manter o dourado, usamos uma combinação de filtros. */
+    filter: invert(1) hue-rotate(180deg) brightness(1.5) contrast(1.2);
+    
+    /* Se a logo for muito grande, isso ajuda a suavizar */
+    mix-blend-mode: screen; 
+}
