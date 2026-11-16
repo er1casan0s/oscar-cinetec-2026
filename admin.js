@@ -300,6 +300,7 @@ async function carregarGraficos() {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false, // <-- [NOVO] Impede que o gráfico mude de altura sozinho
             plugins: { legend: { display: false } },
             scales: {
                 y: { beginAtZero: true, ticks: { color: '#fff', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.1)' } },
