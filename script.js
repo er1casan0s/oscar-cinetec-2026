@@ -27,12 +27,8 @@ function toggleSenha() {
 
 // Função para verificar se a tecla Enter foi pressionada
 function verificarEnter(event) {
-    // Se a tecla pressionada for "Enter" (código 13)
     if (event.key === "Enter" || event.keyCode === 13) {
-        // Impede o comportamento padrão do navegador (que seria recarregar a página)
         event.preventDefault();
-        
-        // Chama a função que já valida a senha
         verificarSenha();
     }
 }
@@ -50,11 +46,10 @@ function verificarSenha() {
     else if (senha === "@admin2026") {
         window.location.href = "admin.html";
     } 
-    // 3. SENHAS DE DIRETOR (Verifica se começa com "gp@")
+    // 3. SENHAS DE DIRETOR
     else if (senha.startsWith("gp@")) {
-        // Guarda a senha no navegador para a página do diretor saber quem é
         localStorage.setItem('codigoAcessoDiretor', senha);
-        window.location.href = "diretor.html"; // Redireciona
+        window.location.href = "diretor.html";
     } 
     // 4. SENHA ERRADA
     else {
@@ -62,15 +57,12 @@ function verificarSenha() {
     }
 }
 
-
-
 // --- CARREGAR CURTAS E MONTAR CARDS ---
 async function carregarCurtas() {
-    // Busca os curtas no banco de dados
     const { data: curtas, error } = await supabaseClient.from('curtas').select('*');
     if (error) { alert("Erro ao carregar curtas: " + error.message); return; }
 
-     listaDeCurtas = curtas; 
+    listaDeCurtas = curtas; 
 
     // Preenche os selects do formulário de votação
     const selects = ['melhor_fotografia', 'melhor_roteiro', 'curta_ator', 'curta_atriz', 'melhor_curta'];
@@ -82,35 +74,59 @@ async function carregarCurtas() {
         });
     });
 
-    // Preenche a galeria de cards
+    // Em vez de criar os cards aqui, chamamos a função que aplica os filtros
+    aplicarFiltros(); 
+}            
+
+// --- FUNÇÃO PARA FILTRAR E ORDENAR OS CARDS ---
+function aplicarFiltros() {
+    const generoFiltro = document.getElementById('filtro-genero').value;
+    const ordem = document.getElementById('ordem-classificacao').value;
     const containerCards = document.getElementById('lista-cards');
+
+    // 1. Começa com a lista completa de curtas
+    let curtasFiltrados = [...listaDeCurtas];
+
+    // 2. Filtra por Gênero
+    if (generoFiltro !== 'todos') {
+        curtasFiltrados = curtasFiltrados.filter(curta => 
+            curta.genero && curta.genero.includes(generoFiltro)
+        );
+    }
+
+    // 3. Ordena a lista
+    curtasFiltrados.sort((a, b) => {
+        if (ordem === 'alfabetica') {
+            return a.nome.localeCompare(b.nome); // A-Z
+        } else if (ordem === 'alfabetica-inversa') {
+            return b.nome.localeCompare(a.nome); // Z-A
+        } else if (ordem === 'edicao') {
+            return b.id - a.id; // Mais recentes primeiro
+        }
+        return 0;
+    });
+
+    // 4. Renderiza os cards na tela
     containerCards.innerHTML = ''; 
 
-    // Se não houver curtas cadastrados, mostra "Em Breve"
-    if (curtas.length === 0) {
-        containerCards.innerHTML = '<div class="sem-curtas" style="grid-column: 1 / -1;">Em Breve...</div>';
+    if (curtasFiltrados.length === 0) {
+        containerCards.innerHTML = '<div class="sem-curtas" style="grid-column: 1 / -1;">Nenhum curta encontrado com esse filtro.</div>';
         return;
     }
 
-    // Cria os cards para cada curta
-    curtas.forEach(curta => {
-        // Se não tiver capa, usa uma imagem padrão
+    curtasFiltrados.forEach(curta => {
         const imagemCapa = curta.link_capa ? curta.link_capa : 'https://via.placeholder.com/300x450/111/d4a356?text=Sem+Capa';
         
         containerCards.innerHTML += `
             <div class="card-filme">
-                <!-- A imagem tem um clique que abre o vídeo, e o CSS cuida do formato de pôster -->
                 <img src="${imagemCapa}" onclick="window.open('${curta.link_video}', '_blank')" style="cursor: pointer;">
                 
                 <div class="card-filme-info">
                     <h4>${curta.nome}</h4>
-                    
-                    <!-- Dados do Filme -->
                     <p><strong>Direção:</strong> ${curta.direcao || 'Não informada'}</p>
                     <p><strong>Elenco:</strong> ${curta.elenco || 'Não informado'}</p>
                     <p><strong>Gênero:</strong> ${curta.genero || 'Não informado'}</p>
                     
-                    <!-- Botão para assistir -->
                     <a href="${curta.link_video}" target="_blank" class="btn-assistir">▶ Assistir no YouTube</a>
                 </div>
             </div>
@@ -121,7 +137,7 @@ async function carregarCurtas() {
 // --- MOSTRAR / ESCONDER FILMES ---
 function mostrarFilmes() {
     document.getElementById('galeria-curtas').style.display = 'block';
-    document.getElementById('linha-divisoria').style.display = 'none'; // Esconde a linha para dar destaque
+    document.getElementById('linha-divisoria').style.display = 'none';
     document.getElementById('galeria-curtas').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -134,81 +150,73 @@ function esconderFilmes() {
 // --- ENVIAR VOTO ---
 document.getElementById('form-voto').addEventListener('submit', async (e) => {
     e.preventDefault(); 
-    const matricula = document.getElementById('matricula').value.trim;
-     if (matricula === "") {
+    
+    // CORRIGIDO: Adicionado os parênteses no .trim()
+    const matricula = document.getElementById('matricula').value.trim(); 
+    
+    if (matricula === "") {
         alert("Por favor, digite sua matrícula.");
-         return;
-     }
+        return;
+    }
     
     const voto = {
         matricula: matricula,
         melhor_fotografia: document.getElementById('melhor_fotografia').value,
         melhor_roteiro: document.getElementById('melhor_roteiro').value,
-        melhor_ator: document.getElementById('melhor_ator_select').value, // Pega o valor do select
+        melhor_ator: document.getElementById('melhor_ator_select').value,
         curta_ator: document.getElementById('curta_ator').value,
-        melhor_atriz: document.getElementById('melhor_atriz_select').value, // Pega o valor do select
+        melhor_atriz: document.getElementById('melhor_atriz_select').value,
         curta_atriz: document.getElementById('curta_atriz').value,
         melhor_curta: document.getElementById('melhor_curta').value
     };
+    
     const { error } = await supabaseClient.from('votos').insert([voto]);
 
     if (error) {
         if (error.code === '23505') alert("Esta matrícula já registrou um voto!");
         else alert("Erro ao enviar voto: " + error.message);
     } else {
-        // Esconde a tela de votação e mostra a tela de Obrigado
         document.getElementById('area-votacao-form').style.display = 'none';
         document.getElementById('tela-obrigado').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 });
 
-
-// Função para forçar o download da imagem em qualquer dispositivo
+// Função para forçar o download da imagem
 function baixarCapa() {
     const linkOriginal = document.getElementById('link-download-capa');
     const urlImagem = linkOriginal.href;
     const nomeArquivo = linkOriginal.getAttribute('download');
 
-    // Cria um link temporário invisível na página
     const linkTemporario = document.createElement('a');
     linkTemporario.href = urlImagem;
     linkTemporario.download = nomeArquivo;
     
-    // Adiciona o link ao corpo da página, clica nele e depois remove
     document.body.appendChild(linkTemporario);
     linkTemporario.click();
     document.body.removeChild(linkTemporario);
 }
 
-
 // Função única para carregar atores e atrizes
 function carregarNomesDoElenco(tipo) {
-    // Descobre se é ator ou atriz baseado no que foi clicado
     const idCurta = document.getElementById(`curta_${tipo}`).value;
     const selectNomes = document.getElementById(`melhor_${tipo}_select`);
     const inputOculto = document.getElementById(`nome_${tipo}`);
 
-    // Limpa a lista de nomes antiga
     selectNomes.innerHTML = `<option value="">Selecione o ${tipo === 'ator' ? 'Ator' : 'Atriz'}...</option>`;
     inputOculto.value = "";
 
-    if (!idCurta) return; // Se não escolheu curta, para aqui
+    if (!idCurta) return;
 
-    // Procura o curta na lista que foi carregada do banco de dados
     const curta = listaDeCurtas.find(c => c.id == idCurta);
     
-    // Se o curta existe e tem elenco cadastrado
     if (curta && curta.elenco) {
-        // Separa os nomes pelas vírgulas
         const nomes = curta.elenco.split(',').map(nome => nome.trim());
         
         nomes.forEach(nomeCompleto => {
             if (nomeCompleto !== "") { 
-                // O CÓDIGO FOI ALTERADO AQUI: Agora ele exibe o nome completo, incluindo o personagem
+                // Exibe o nome completo, incluindo o personagem
                 let nomeExibicao = nomeCompleto; 
-
-                // Coloca o texto inteiro na lista (ex: "Homem-Aranha - Tom Holland")
                 selectNomes.innerHTML += `<option value="${nomeExibicao}">${nomeExibicao}</option>`;
             }
         });
