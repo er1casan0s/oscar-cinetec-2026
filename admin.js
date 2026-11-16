@@ -121,7 +121,13 @@ document.getElementById('form-admin').addEventListener('submit', async (e) => {
         let linkCapaPublica = null;
 
         if (arquivoCapa) {
-            const nomeArquivo = `${Date.now()}-${arquivoCapa.name.replace(/\s/g, '_')}`;
+            // Limpa o nome: remove acentos, troca espaços por underline e remove caracteres especiais
+        const nomeLimpo = arquivoCapa.name
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos (ç -> c, ã -> a)
+        .replace(/\s/g, '_')                               // Troca espaços por _
+        .replace(/[^a-zA-Z0-9._-]/g, '');                 // Remove o que não for letra, número, ponto ou underline
+
+const nomeArquivo = `${Date.now()}-${nomeLimpo}`;
             const { error: uploadError } = await supabaseClient.storage.from('capas').upload(nomeArquivo, arquivoCapa);
             if (uploadError) throw new Error("Erro no upload: " + uploadError.message);
 
