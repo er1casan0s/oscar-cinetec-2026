@@ -123,6 +123,12 @@ function aplicarFiltros() {
                 
                 <div class="card-filme-info">
                     <h4>${curta.nome}</h4>
+                    
+                    <!-- [NOVO] Sinopse no Card de Votação -->
+                    <p style="font-style: italic; margin-bottom: 10px; font-size: 0.85rem; color: var(--text-main);">
+                        ${curta.sinopse || 'Sinopse não informada.'}
+                    </p>
+                    
                     <p><strong>Direção:</strong> ${curta.direcao || 'Não informada'}</p>
                     <p><strong>Elenco:</strong> ${curta.elenco || 'Não informado'}</p>
                     <p><strong>Gênero:</strong> ${curta.genero || 'Não informado'}</p>
