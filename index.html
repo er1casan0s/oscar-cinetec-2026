@@ -44,6 +44,25 @@
                     <h3 style="margin: 0;">Filmes em Competição</h3>
                     <button onclick="esconderFilmes()" class="btn-topo" style="margin: 0;">⬅ Voltar</button>
                 </div>
+                
+    <!-- [NOVO] Barra de Filtros e Ordenação -->
+                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center;">
+                    <select id="filtro-genero" onchange="aplicarFiltros()" style="max-width: 200px; margin-top: 0; padding: 8px;">
+                        <option value="todos">Todos os Gêneros</option>
+                        <option value="Comédia">Comédia</option>
+                        <option value="Suspense">Suspense</option>
+                        <option value="Drama">Drama</option>
+                    </select>
+
+                    <select id="ordem-classificacao" onchange="aplicarFiltros()" style="max-width: 250px; margin-top: 0; padding: 8px;">
+                        <option value="alfabetica">A-Z (Ordem Alfabética)</option>
+                        <option value="alfabetica-inversa">Z-A (Ordem Inversa)</option>
+                        <option value="edicao">Mais Recentes</option>
+                    </select>
+                </div>
+                <!-- Fim da Barra de Filtros -->
+
+                
                 <div class="grid-curtas" id="lista-cards"></div>
             </div>
 
