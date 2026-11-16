@@ -263,6 +263,28 @@ async function carregarGraficos() {
     const ctx = document.getElementById('graficoMelhorCurta').getContext('2d');
     if (meuGrafico) meuGrafico.destroy();
 
+        // [NOVO] Paleta de cores para as barras
+    const coresBarras = [
+        '#d4a356', // Dourado (CINETEC)
+        '#f37321', // Laranja
+        '#031d4e', // Azul Escuro
+        '#4CAF50', // Verde
+        '#9C27B0', // Roxo
+        '#E91E63', // Rosa
+        '#00BCD4', // Azul Claro
+        '#FF5722', // Vermelho Alaranjado
+        '#795548', // Marrom
+        '#607D8B', // Cinza Azulado
+        '#FFC107', // Amarelo
+        '#8BC34A', // Verde Claro
+        '#3F51B5'  // Azul Índigo
+    ];
+
+    // Cria um array de cores repetindo a paleta caso tenha mais curtas que cores
+    const coresParaAsBarras = Object.keys(contagemMelhorCurta).map((_, index) => {
+        return coresBarras[index % coresBarras.length];
+    });
+
     meuGrafico = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -270,8 +292,8 @@ async function carregarGraficos() {
             datasets: [{
                 label: 'Quantidade de Votos',
                 data: Object.values(contagemMelhorCurta),
-                backgroundColor: '#d4a356',
-                borderColor: '#f37321',
+                backgroundColor: coresParaAsBarras, // <-- [ALTERADO] Usa o array de cores
+                borderColor: '#f37321', // Borda laranja para todas
                 borderWidth: 2,
                 borderRadius: 5
             }]
