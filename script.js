@@ -157,13 +157,11 @@ function esconderFilmes() {
 document.getElementById('form-voto').addEventListener('submit', async (e) => {
     e.preventDefault(); 
     
-    // CORRIGIDO: Adicionado os parênteses no .trim()
-    const matricula = document.getElementById('matricula').value.trim(); 
-    
-    if (matricula === "") {
-        alert("Por favor, digite sua matrícula.");
-        return;
-    }
+   const matricula = document.getElementById('matricula').value.trim();
+if (matricula === "" || matricula.length > 8) {
+    alert("Por favor, digite uma matrícula válida .");
+    return;
+}
     
     const voto = {
         matricula: matricula,
