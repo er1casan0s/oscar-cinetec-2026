@@ -231,3 +231,12 @@ textarea:focus {
     border-color: var(--primary);
     box-shadow: 0 0 8px rgba(212, 163, 86, 0.5);
 }
+
+
+/* Deixa a caixa da matrícula mais larga e a fonte maior */
+#matricula {
+    font-size: 1.2rem; /* Aumenta o tamanho da letra */
+    padding: 15px; /* Aumenta a altura da caixa */
+    letter-spacing: 2px; /* Dá um espaço entre os números */
+    text-align: center; /* Centraliza o texto digitado */
+}
