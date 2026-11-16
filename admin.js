@@ -303,7 +303,14 @@ async function carregarGraficos() {
             plugins: { legend: { display: false } },
             scales: {
                 y: { beginAtZero: true, ticks: { color: '#fff', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                x: { ticks: { color: '#fff' }, grid: { display: false } }
+                x: { 
+                    ticks: { 
+                        color: coresParaAsBarras,
+                        font: { weigth:'bold'}
+                    }, 
+                    grid: { 
+                        display: false }
+                }
             }
         }
     });
