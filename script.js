@@ -215,37 +215,29 @@ function baixarCapa() {
     document.body.removeChild(linkTemporario);
 }
 
-// Função única para carregar atores e atrizes
-// Função única para carregar atores e atrizes
 function carregarNomesDoElenco(tipo) {
     const idCurta = document.getElementById(`curta_${tipo}`).value;
     const selectNomes = document.getElementById(`melhor_${tipo}_select`);
-    const inputOculto = document.getElementById(`nome_${tipo}`);
 
-    // Limpa a lista
+    // Limpa a lista e reseta
     selectNomes.innerHTML = `<option value="">Selecione o ${tipo === 'ator' ? 'Ator' : 'Atriz'}...</option>`;
-    inputOculto.value = "";
 
-    // Se não escolheu o curta, para aqui
-    if (!idCurta) return; 
+    if (!idCurta) return;
 
-    // Procura o curta na lista
-    const curta = listaDeCurtas.find(c => c.id == idCurta);
+    // Procura o curta na lista global
+    const curta = listaDeCurtas.find(c => String(c.id) === String(idCurta));
     
-    // Se o curta existe e tem elenco cadastrado
-    if (curta && curta.elenco) {
-        // O SEGREDO ESTÁ AQUI: Separa os nomes por vírgula E também por ponto e vírgula (caso o aluno tenha digitado errado)
-        const nomesBrutos = curta.elenco.split(/,|;/); 
+    if (curta && curta.elenco && curta.elenco.trim() !== "") {
+        // Separa por vírgula
+        const nomes = curta.elenco.split(',').map(nome => nome.trim());
         
-        nomesBrutos.forEach(nomeCompleto => {
-            const nomeLimpo = nomeCompleto.trim();
-            if (nomeLimpo !== "") { 
-                // Adiciona o nome na lista
-                selectNomes.innerHTML += `<option value="${nomeLimpo}">${nomeLimpo}</option>`;
+        nomes.forEach(nome => {
+            if (nome !== "") { 
+                selectNomes.innerHTML += `<option value="${nome}">${nome}</option>`;
             }
         });
     } else {
-        // Se o curta não tiver elenco cadastrado, avisa o usuário
-        selectNomes.innerHTML += `<option value="">Elenco não cadastrado</option>`;
+        // Se não tiver elenco, avisa no select
+        selectNomes.innerHTML += `<option value="">Nenhum elenco cadastrado neste curta</option>`;
     }
 }
