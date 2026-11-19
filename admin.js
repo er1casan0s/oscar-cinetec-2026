@@ -238,21 +238,32 @@ async function carregarGraficos() {
     };
 
     votos.forEach(voto => {
-        const nomeCurta = getNome(voto.melhor_curta);
-        if(contagemMelhorCurta[nomeCurta] !== undefined) contagemMelhorCurta[nomeCurta]++;
+        // Melhor Curta
+        if (voto.melhor_curta) {
+            const nomeCurta = getNome(voto.melhor_curta);
+            if(contagemMelhorCurta[nomeCurta] !== undefined) contagemMelhorCurta[nomeCurta]++;
+        }
 
-        const fotografia = getNome(voto.melhor_fotografia);
-        contagemFotografia[fotografia] = (contagemFotografia[fotografia] || 0) + 1;
+        // Fotografia
+        if (voto.melhor_fotografia) {
+            const fotografia = getNome(voto.melhor_fotografia);
+            contagemFotografia[fotografia] = (contagemFotografia[fotografia] || 0) + 1;
+        }
 
-        const roteiro = getNome(voto.melhor_roteiro);
-        contagemRoteiro[roteiro] = (contagemRoteiro[roteiro] || 0) + 1;
+        // Roteiro
+        if (voto.melhor_roteiro) {
+            const roteiro = getNome(voto.melhor_roteiro);
+            contagemRoteiro[roteiro] = (contagemRoteiro[roteiro] || 0) + 1;
+        }
 
+        // Ator
         if (voto.melhor_ator) {
             const nomeDoCurtaDoAtor = getNome(voto.curta_ator);
             const chaveAtor = `${voto.melhor_ator} (${nomeDoCurtaDoAtor})`;
             contagemAtor[chaveAtor] = (contagemAtor[chaveAtor] || 0) + 1;
         }
 
+        // Atriz
         if (voto.melhor_atriz) {
             const nomeDoCurtaDaAtriz = getNome(voto.curta_atriz);
             const chaveAtriz = `${voto.melhor_atriz} (${nomeDoCurtaDaAtriz})`;
