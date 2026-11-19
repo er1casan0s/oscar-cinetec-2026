@@ -202,11 +202,11 @@ async function carregarVotos() {
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${voto.matricula}</strong></td>
-                    <td>${getNomeCurta(voto.melhor_fotografia)}</td>
-                    <td>${getNomeCurta(voto.melhor_roteiro)}</td>
-                    <td>${voto.melhor_ator} <br><small style="color:#d4a356">(${getNomeCurta(voto.curta_ator)})</small></td>
-                    <td>${voto.melhor_atriz} <br><small style="color:#d4a356">(${getNomeCurta(voto.curta_atriz)})</small></td>
-                    <td><strong>${getNomeCurta(voto.melhor_curta)}</strong></td>
+                    <td>${voto.melhor_fotografia ? getNomeCurta(voto.melhor_fotografia) : '-'}</td>
+                    <td>${voto.melhor_roteiro ? getNomeCurta(voto.melhor_roteiro) : '-'}</td>
+                    <td>${voto.melhor_ator ? `${voto.melhor_ator} <br><small style="color:#d4a356">(${getNomeCurta(voto.curta_ator)})</small>` : '-'}</td>
+                    <td>${voto.melhor_atriz ? `${voto.melhor_atriz} <br><small style="color:#d4a356">(${getNomeCurta(voto.curta_atriz)})</small>` : '-'}</td>
+                    <td><strong>${voto.melhor_curta ? getNomeCurta(voto.melhor_curta) : '-'}</strong></td>
                 </tr>
             `;
         });
