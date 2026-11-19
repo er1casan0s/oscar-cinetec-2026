@@ -37,7 +37,7 @@ function verificarSenha() {
     const senha = document.getElementById('input-senha').value;
     
     // 1. SENHA DE VOTANTE
-    if (senha === "oscar@2026") {
+    if (senha === "cinetecclose") {
         document.getElementById('tela-senha').style.display = 'none';
         document.getElementById('tela-votacao').style.display = 'block';
         carregarCurtas();
