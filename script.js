@@ -157,21 +157,35 @@ function esconderFilmes() {
 document.getElementById('form-voto').addEventListener('submit', async (e) => {
     e.preventDefault(); 
     
-   const matricula = document.getElementById('matricula').value.trim();
-if (matricula === "" || matricula.length > 8) {
-    alert("Por favor, digite uma matrícula válida .");
-    return;
-}
+    const matricula = document.getElementById('matricula').value.trim(); 
+    
+    if (matricula === "") {
+        alert("Por favor, digite sua matrícula.");
+        return;
+    }
+
+    // --- [NOVO] Verifica se pelo menos uma categoria foi preenchida ---
+    const votouFotografia = document.getElementById('melhor_fotografia').value !== "";
+    const votouRoteiro = document.getElementById('melhor_roteiro').value !== "";
+    const votouAtor = document.getElementById('melhor_ator_select').value !== "";
+    const votouAtriz = document.getElementById('melhor_atriz_select').value !== "";
+    const votouCurta = document.getElementById('melhor_curta').value !== "";
+
+    if (!votouFotografia && !votouRoteiro && !votouAtor && !votouAtriz && !votouCurta) {
+        alert("Você precisa votar em pelo menos uma categoria!");
+        return;
+    }
+    // ------------------------------------------------------------------
     
     const voto = {
         matricula: matricula,
-        melhor_fotografia: document.getElementById('melhor_fotografia').value,
-        melhor_roteiro: document.getElementById('melhor_roteiro').value,
-        melhor_ator: document.getElementById('melhor_ator_select').value,
-        curta_ator: document.getElementById('curta_ator').value,
-        melhor_atriz: document.getElementById('melhor_atriz_select').value,
-        curta_atriz: document.getElementById('curta_atriz').value,
-        melhor_curta: document.getElementById('melhor_curta').value
+        melhor_fotografia: document.getElementById('melhor_fotografia').value || null, // Se vazio, envia null
+        melhor_roteiro: document.getElementById('melhor_roteiro').value || null,
+        melhor_ator: document.getElementById('melhor_ator_select').value || null,
+        curta_ator: document.getElementById('curta_ator').value || null,
+        melhor_atriz: document.getElementById('melhor_atriz_select').value || null,
+        curta_atriz: document.getElementById('curta_atriz').value || null,
+        melhor_curta: document.getElementById('melhor_curta').value || null
     };
     
     const { error } = await supabaseClient.from('votos').insert([voto]);
