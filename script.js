@@ -60,8 +60,8 @@ function verificarSenha() {
 // --- CARREGAR CURTAS E MONTAR CARDS ---
 async function carregarCurtas() {
     const { data: curtas, error } = await supabaseClient.from('curtas').select('*');
-    if (error) { alert("Erro ao carregar curtas: " + error.message); return; }
-
+    if (error) { alert("Erro: " + error.message); return; }
+    
     listaDeCurtas = curtas; 
 
     // Preenche os selects do formulário de votação
