@@ -216,27 +216,36 @@ function baixarCapa() {
 }
 
 // Função única para carregar atores e atrizes
+// Função única para carregar atores e atrizes
 function carregarNomesDoElenco(tipo) {
     const idCurta = document.getElementById(`curta_${tipo}`).value;
     const selectNomes = document.getElementById(`melhor_${tipo}_select`);
     const inputOculto = document.getElementById(`nome_${tipo}`);
 
+    // Limpa a lista
     selectNomes.innerHTML = `<option value="">Selecione o ${tipo === 'ator' ? 'Ator' : 'Atriz'}...</option>`;
     inputOculto.value = "";
 
-    if (!idCurta) return;
+    // Se não escolheu o curta, para aqui
+    if (!idCurta) return; 
 
+    // Procura o curta na lista
     const curta = listaDeCurtas.find(c => c.id == idCurta);
     
+    // Se o curta existe e tem elenco cadastrado
     if (curta && curta.elenco) {
-        const nomes = curta.elenco.split(',').map(nome => nome.trim());
+        // O SEGREDO ESTÁ AQUI: Separa os nomes por vírgula E também por ponto e vírgula (caso o aluno tenha digitado errado)
+        const nomesBrutos = curta.elenco.split(/,|;/); 
         
-        nomes.forEach(nomeCompleto => {
-            if (nomeCompleto !== "") { 
-                // Exibe o nome completo, incluindo o personagem
-                let nomeExibicao = nomeCompleto; 
-                selectNomes.innerHTML += `<option value="${nomeExibicao}">${nomeExibicao}</option>`;
+        nomesBrutos.forEach(nomeCompleto => {
+            const nomeLimpo = nomeCompleto.trim();
+            if (nomeLimpo !== "") { 
+                // Adiciona o nome na lista
+                selectNomes.innerHTML += `<option value="${nomeLimpo}">${nomeLimpo}</option>`;
             }
         });
+    } else {
+        // Se o curta não tiver elenco cadastrado, avisa o usuário
+        selectNomes.innerHTML += `<option value="">Elenco não cadastrado</option>`;
     }
 }
