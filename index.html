@@ -93,42 +93,38 @@
 
             <h3>Registre seu Voto</h3>
             <form id="form-voto">
-                <label>Matrícula :</label>
-                <input type="text" id="matricula" maxlength="8" required  placeholder="digite sua matrícula">
-                <!--pattern="\d{6}" -->
+    <label>Matrícula (até 6 dígitos):</label>
+    <input type="text" id="matricula" maxlength="6" required placeholder="Digite sua matrícula">
 
-                <label>Melhor Fotografia:</label>
-                <select id="melhor_fotografia" required></select>
+    <label>Melhor Fotografia:</label>
+    <select id="melhor_fotografia"></select>
 
-                <label>Melhor Roteiro:</label>
-                <select id="melhor_roteiro" required></select>
+    <label>Melhor Roteiro:</label>
+    <select id="melhor_roteiro"></select>
 
-                <!-- Melhor Ator -->
-                <label>Melhor Ator:</label>
-                <select id="curta_ator" required onchange="carregarNomesDoElenco('ator')">
-                    <option value="">1. Selecione o Curta...</option>
-                </select>
-                <select id="melhor_ator_select" required>
-                    <option value="">2. Selecione o Ator...</option>
-                </select>
-                <input type="hidden" id="nome_ator" value=""> 
+    <!-- Melhor Ator -->
+    <label>Melhor Ator:</label>
+    <select id="curta_ator" onchange="carregarNomesDoElenco('ator')">
+        <option value="">1. Selecione o Curta...</option>
+    </select>
+    <select id="melhor_ator_select">
+        <option value="">2. Selecione o Ator...</option>
+    </select>
 
-                <!-- Melhor Atriz -->
-                <label>Melhor Atriz:</label>
-                <select id="curta_atriz" required onchange="carregarNomesDoElenco('atriz')">
-                    <option value="">1. Selecione o Curta...</option>
-                </select>
-                <select id="melhor_atriz_select" required>
-                    <option value="">2. Selecione a Atriz...</option>
-                </select>
-                <input type="hidden" id="nome_atriz" value="">
-                
-                <label>Melhor Curta:</label>
-                <select id="melhor_curta" required></select>
+    <!-- Melhor Atriz -->
+    <label>Melhor Atriz:</label>
+    <select id="curta_atriz" onchange="carregarNomesDoElenco('atriz')">
+        <option value="">1. Selecione o Curta...</option>
+    </select>
+    <select id="melhor_atriz_select">
+        <option value="">2. Selecione a Atriz...</option>
+    </select>
+    
+    <label>Melhor Curta:</label>
+    <select id="melhor_curta"></select>
 
-                <button type="submit">Enviar Voto</button>
-            </form>
-            
+    <button type="submit">Enviar Voto</button>
+</form>
             
         </div>
 
